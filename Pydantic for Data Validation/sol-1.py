@@ -7,10 +7,15 @@ class Student(BaseModel):
     age: int = Field(gt=0, le=18)
 
     # This field validator is used to validate if email belongs to masai.com or not. 
+    #called automatically,
+    # @=antation, email_validator function require cls=class varible(name,email,age) can use
+    #email user can provide value, return class parameter, 
     @field_validator('email')
     @classmethod
     def email_validator(cls, value):
         # abc@masai.com
+        #value.split('@')=['abc', 'masai.com'] , 0=abc,1=masai.com;-1=masai.com
+        #domain_name=masai.com
         domain_name = value.split('@')[-1]  # ['abc', 'masai.com'] 
 
         if domain_name != 'masai.com':
@@ -28,7 +33,8 @@ class Student(BaseModel):
         
         return value
 
-student_info = {'name' : 'Chirag', 'email' : 'abc@masai.com', 'age' : 14}
+student_info = {'name' : 'Chandrasekhar', 'email' : 'abc@masai.com', 'age' : 14}
 student = Student(**student_info)
-print(student)
-
+print("name=",student.name)
+print("email=",student.email)
+print("age=",student.age)
